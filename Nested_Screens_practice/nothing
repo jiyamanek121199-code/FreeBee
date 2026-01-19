@@ -1,0 +1,280 @@
+import { StyleSheet, Text, View, TextInput, Image, Pressable, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { createStaticNavigation, NavigationContainer, useNavigation } from '@react-navigation/native';
+
+import Fonts from '../Fonts'
+const logginScreen = () => {
+    const navigation = useNavigation();
+    const [Email, setEmail] = useState('')
+    const [userName, setUserName] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+
+    const [userNameError, setUserNameError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const [emailError, setEmailError] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("")
+
+    const [usernameVerify, setUsernameVerify] = useState('')
+    const [passwordVerify, setPasswordVerrify] = useState('')
+
+    const userNameRef = React.useRef()
+    const passwordRef = React.useRef()
+    const confirmPasswordRef = React.useRef()
+    const emailRef = React.useRef()
+
+    const [isFocus, setisFocus] = useState(false)
+
+
+    useEffect(() => {
+        setUsernameVerify(userName)
+        setPasswordVerrify(password)
+        console.log(usernameVerify)
+    }, [userName], [password]);
+
+    function fu() {
+        setisFocus(!isFocus)
+    }
+    function navigate() {
+        navigation.reset({ index: 0, routes: [{ name: 'Login', params: { username: usernameVerify, password: passwordVerify } }] })
+        setUsernameVerify('')
+        setPasswordVerrify('')
+        return (null)
+    }
+
+    function doSubmit() {
+        setPasswordError("");
+        setUserNameError("");
+        setEmailError("");
+        setConfirmPasswordError("");
+        var isValid = true;
+
+        if (!userName) {
+            setUserNameError("Please enter your username.")
+            isValid = false;
+        }
+
+
+        if (!password) {
+            setPasswordError("Please enter your password.")
+            isValid = false;
+        }
+
+        if (!Email) {
+            setEmailError("Please enter your Email.")
+            isValid = false;
+        } else if (!isValidEmail(Email)) {
+            setEmailError("Please enter valid email address.")
+            isValid = false;
+        }
+
+        if (!confirmPassword) {
+            setConfirmPasswordError("Please enter your password again.")
+            isValid = false;
+        } else if (password !== confirmPassword) {
+            setConfirmPasswordError("your password doesnt match")
+            isValid = false;
+        }
+
+        if (isValid) {
+            setUsernameVerify(userName)
+            setPasswordVerrify(password)
+            setPassword('')
+            setUserName('')
+            setConfirmPassword('')
+            setEmail('')
+
+        }
+    }
+    function isValidEmail(text) {
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+        if (reg.test(text) === false) {
+            return false;
+        }
+        return true;
+    }
+
+    return (
+        <View style={{ flex: 1, paddingVertical: 50, paddingHorizontal: 15, paddingTop: 70, backgroundColor: '#f9f3f0' }}>
+            <TouchableOpacity onPress={navigate} style={styles.baclbutton} >
+
+                <Image
+                    style={{ height: 20, width: 20 }}
+                    source={require('./Images/icons8-back-100.png')}
+                />
+
+            </TouchableOpacity>
+
+            <Text style={{ fontFamily: Fonts.Logo, fontSize: 55, color: '#FF6B00', alignSelf: 'center' }}>FreeBee</Text>
+
+            <Text style={{ fontFamily: Fonts.BOLD, fontSize: 25, alignSelf: 'center', marginTop: 5, marginBottom: 10 }}>Register</Text>
+            <View style={styles.TextInput}>
+                <TextInput
+                    style={{ fontSize: 17 }}
+                    ref={userNameRef}
+                    onChangeText={text => {
+                        setUserName(text)
+                        setUserNameError(null)
+                    }}
+                    value={userName}
+                    placeholder="Username"
+                    returnKeyType="next"
+                    onSubmitEditing={() => { emailRef.current.focus(); }}
+                />
+                <Image
+                    style={styles.tinyLogo}
+                    source={require('./Images/icons8-user-100.png')}
+                />
+                <Text style={{ color: 'red', position: 'absolute', bottom: -18 }}>{userNameError}</Text>
+            </View>
+
+            <View style={[styles.TextInput]}>
+                <TextInput
+                    style={{ fontSize: 17 }}
+                    ref={emailRef}
+                    onChangeText={text => {
+                        setEmail(text)
+                        setEmailError(null)
+                    }}
+                    value={Email}
+                    placeholder="Email"
+                    returnKeyType="next"
+                    onSubmitEditing={() => { passwordRef.current.focus(); }}
+                />
+                <Image
+                    style={styles.tinyLogo}
+                    source={require('./Images/icons8-email-60.png')}
+                />
+                <Text style={{ color: 'red', position: 'absolute', bottom: -18 }}>{emailError}</Text>
+            </View>
+
+
+            <View style={[styles.TextInput]}>
+                <TextInput
+                    style={{ fontSize: 17 }}
+
+                    ref={passwordRef}
+                    onChangeText={text => {
+                        setPassword(text)
+                        setPasswordError(null)
+                    }}
+                    value={password}
+                    placeholder="Password"
+                    returnKeyType="next"
+                    secureTextEntry={!isFocus}
+
+                    onSubmitEditing={() => { confirmPasswordRef.current.focus(); }}
+
+                />
+                <Image
+                    style={styles.tinyLogo}
+                    source={require('./Images/icons8-shield-60.png')}
+                />
+                <TouchableOpacity onPress={fu} >
+                    <Image
+                        style={{ alignSelf: 'flex-end', marginRight: 24, height: 22, width: 22, position: 'absolute', bottom: 11 }}
+                        source={isFocus ? require('./Images/visibility_24dp_656565_FILL0_wght400_GRAD0_opsz24.png') : require('./Images/visibility_off_24dp_656565_FILL0_wght400_GRAD0_opsz24.png')}
+                    />
+                </TouchableOpacity>
+                <Text style={{ color: 'red', position: 'absolute', bottom: -18 }}>{passwordError}</Text>
+            </View>
+
+
+            <View style={[styles.TextInput,]}>
+                <TextInput
+                    style={{ fontSize: 17 }}
+                    ref={confirmPasswordRef}
+                    onChangeText={text => {
+                        setConfirmPassword(text)
+                        setConfirmPasswordError(null)
+                    }}
+                    value={confirmPassword}
+                    placeholder="Confirm Password"
+                    returnKeyType="Done"
+                    secureTextEntry={!isFocus}
+
+                />
+                <Image
+                    style={[styles.tinyLogo]}
+                    source={require('./Images/icons8-shield-20.png')}
+                />
+                <TouchableOpacity onPress={fu} >
+                    <Image
+                        style={{ alignSelf: 'flex-end', marginRight: 24, height: 22, width: 22, position: 'absolute', bottom: 11 }}
+                        source={isFocus ? require('./Images/visibility_24dp_656565_FILL0_wght400_GRAD0_opsz24.png') : require('./Images/visibility_off_24dp_656565_FILL0_wght400_GRAD0_opsz24.png')}
+                    />
+                </TouchableOpacity>
+                <Text style={{ color: 'red', position: 'absolute', bottom: -18 }}>{confirmPasswordError}</Text>
+            </View>
+
+
+            <Pressable
+                onPress={() => { doSubmit() }}
+                style={({ pressed }) => [
+                    {
+                        backgroundColor: pressed ? '#fbedb4' : '#FF6B00',
+                    },
+                    styles.button,
+                ]}>
+                <Text style={{ fontSize: 20, fontFamily: Fonts.BOLD, color: '#000', marginTop: 3 }}>Sign up</Text>
+            </Pressable>
+
+
+            <View style={styles.registor}>
+                <Text style={{ fontSize: 15.5, fontFamily: Fonts.MEDUIM }}>Already have an account?</Text>
+                <Text style={{ fontSize: 15.5, fontFamily: Fonts.MEDUIM, color: '#FF6B00' }} onPress={navigate} >Login</Text>
+            </View>
+        </View>
+    )
+}
+
+export default logginScreen
+
+const styles = StyleSheet.create({
+    TextInput: {
+        height: 70,
+        width: '100%',
+        backgroundColor: '#f4f3f3',
+        borderRadius: 20,
+        marginTop: 20,
+        paddingLeft: 50,
+        marginBottom: 2.5,
+        justifyContent: 'center',
+    },
+    tinyLogo: {
+        height: 20,
+        width: 20,
+        position: 'absolute',
+        marginLeft: 20
+    },
+    button: {
+        height: 60,
+        width: '100%',
+        // backgroundColor: '#006bff',
+        borderRadius: 20,
+        marginTop: 35,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    registor: {
+        alignSelf: 'center',
+        bottom: -80,
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 3,
+    },
+    baclbutton: {
+        position: 'absolute',
+        height: 50,
+        width: 50,
+        backgroundColor: '#f4f3f3',
+        marginTop: 10,
+        marginLeft: 10,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    }
+})

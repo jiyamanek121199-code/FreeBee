@@ -7,13 +7,14 @@ import {
   NavigationActions,
   Image,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
 import splacedScreen from './Nested_Screens_practice/SplacedScreen';
 import logginScreen from './Nested_Screens_practice/logginScreen';
 import signUpScreen from './Nested_Screens_practice/signUpScreen';
 import ForgotPassword from './Nested_Screens_practice/ForgotPassword';
-import welcomeScreen from './Nested_Screens_practice/welcomeScreen';
+import welcomeScreen from './Nested_Screens_practice/mainScreen';
 import onbordeingscreen from './Nested_Screens_practice/onbordeingscreen';
 import RestaurantDetails from './Nested_Screens_practice/RestaurantDetails';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -34,6 +35,10 @@ import carScreen from './Nested_Screens_practice/carScreen';
 import accountScreen from './Nested_Screens_practice/accountScreen';
 import { CartProvider } from './Nested_Screens_practice/CartContext';
 import ordered from './Nested_Screens_practice/ordered';
+import PaymentMethodsScreen from './Nested_Screens_practice/PaymentMethodsScreen';
+import HelpAndSupportScreen from './Nested_Screens_practice/HelpAndSupportScreen';
+import AboutScreen from './Nested_Screens_practice/AboutScreen';
+import DeliveryScreen from './Nested_Screens_practice/DeliveryScreen';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -282,6 +287,26 @@ function RootStack() {
           <Stack.Screen
             name="Restaurant"
             component={RestaurantDetails}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PaymentMethods"
+            component={PaymentMethodsScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="HelpAndSupport"
+            component={HelpAndSupportScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="About"
+            component={AboutScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Delivery"
+            component={DeliveryScreen}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
