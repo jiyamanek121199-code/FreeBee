@@ -16,7 +16,7 @@ const AboutScreen = () => {
   const navigation = useNavigation();
 
   const features = [
-    { icon: 'truck-fast', text: 'Fast Delivery' },
+    { icon: 'truck', text: 'Fast Delivery' },
     { icon: 'food', text: 'Fresh Food' },
     { icon: 'shield-check', text: 'Safe & Secure' },
     { icon: 'percent', text: 'Best Offers' },
